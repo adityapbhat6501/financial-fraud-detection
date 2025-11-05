@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Fraud Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+        }
+        h1 { color: #333; margin-bottom: 20px; }
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px #ccc;
+            max-width: 600px;
+            width: 100%;
+        }
+        .form-group { display: flex; flex-direction: column; margin-bottom: 15px; }
+        label { font-weight: bold; margin-bottom: 5px; }
+        input[type=text], select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        input[type=submit] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type=submit]:hover { background: #218838; }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 600px;
+        }
+        .fraud { background: #f8d7da; color: #842029; border: 1px solid #f5c2c7; }
+        .safe { background: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
+    </style>
+</head>
+<body>
+    <h1>Financial Fraud Detection</h1>
+    <form action="/predict" method="post" class="form-container">
+        <div class="form-group">
+            <label>Time (HH:MM)</label>
+            <input type="text" name="time" placeholder="e.g., 12:30" required>
+        </div>
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="text" name="amount" placeholder="Transaction amount" required>
+        </div>
+        <div class="form-group">
+            <label>Transaction Type</label>
+            <select name="trans_type" required>
+                <option value="Online">Online</option>
+                <option value="POS">POS</option>
+                <option value="ATM">ATM</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Country Risk</label>
+            <select name="country_risk" required>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Device</label>
+            <select name="device" required>
+                <option value="Mobile">Mobile</option>
+                <option value="Desktop">Desktop</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Previous Fraud History</label>
+            <select name="previous_history" required>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+        <input type="submit" value="Predict Transaction">
+    </form>
+
+    {% if prediction %}
+        <div class="result {% if 'Fraud' in prediction %}fraud{% else %}safe{% endif %}">
+            {{ prediction }}
+        </div>
+    {% endif %}
+</body>
+</html>
